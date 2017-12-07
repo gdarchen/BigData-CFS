@@ -1,0 +1,36 @@
+@startuml
+title Diagramme de déploiement — CFS
+actor Utilisateur as User
+
+
+node "<<<i>Device</i>>>\nMachine Client" as Client {
+    artifact "<i><<Artifact>></i>\nClient Web" as progClient
+}
+
+cloud Internet
+
+node "<<<i>Device</i>>>\nServeur" as Serveur {
+    artifact "<i><<Artifact>></i>\nApplication serveur" as progServeur
+    artifact "<i><<Artifact>></i>\nORM : DataStax Python Driver" as ORM
+
+    node "<i><<Artifact>></i>\n<b>Cassandra File System</b>" as CFS {
+        storage "Cluster Cassandra" as cluster {
+            database "Nœud Cassandra" as noeud1
+            database "Nœud Cassandra" as noeud2
+            database "Nœud Cassandra" as noeud3
+            database "Nœud Cassandra" as noeud4
+        }
+    }
+}
+
+User -- progClient
+progClient -- Internet
+Internet -- progServeur
+progServeur -- ORM
+ORM -right- CFS
+
+noeud1 -down- noeud2
+noeud2 -right- noeud3
+noeud3 -up- noeud4
+noeud4 -left- noeud1
+@enduml
