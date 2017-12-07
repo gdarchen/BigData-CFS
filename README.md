@@ -1,6 +1,6 @@
 ### INSA ROUEN 2017 — [CASI — Sujet 30A](http://prodageo.insa-rouen.fr/casi/sujetproj/sujetproj_30A_big_data_tweet.html)
 
-# Big Data et tweet en temps réel
+# Big Data et tweet en temps réel — Solution CFS (*Cassandra File System*)
 
 ## Technique étudiée
 
