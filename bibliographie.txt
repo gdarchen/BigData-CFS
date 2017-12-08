@@ -1,4 +1,6 @@
-ORM : 
+ODM : 
 DataStax Python Driver for Apache Cassandra
 https://github.com/datastax/python-driver
 http://datastax.github.io/python-driver/object_mapper.html
+On appelle ça ODM plutôt que ORM pour base NoSQL:
+https://dzone.com/articles/sqlifying-nosql-%E2%80%93-are-orm
