@@ -11,7 +11,8 @@ cloud Internet
 
 node "<<<i>Device</i>>>\nServeur" as Serveur {
     artifact "<i><<Artifact>></i>\nApplication serveur" as progServeur
-    artifact "<i><<Artifact>></i>\nORM : DataStax Python Driver" as ORM
+    artifact "<i><<Artifact>></i>\nODM : DataStax Python Driver" as ORM
+    note bottom of ORM : <i>Object data-store Mapping tool</i>
 
     node "<i><<Artifact>></i>\n<b>Cassandra File System</b>" as CFS {
         storage "Cluster Cassandra" as cluster {
