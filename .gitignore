@@ -1,3 +1,5 @@
 venv
 derby.log
 metastore_db/
+server/__pycache__
+
