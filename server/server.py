@@ -89,6 +89,10 @@ class Server(object):
         return global_valence
 
     def get_tweets_valence(self):
+        """
+            Calculates the valence of each tweet of the database and returns
+            a list of the calculated valences.
+        """
         general_valence = {}
         for tweet in self.tweets:
             general_valence[tweet.text] = self.get_tweet_valence(tweet)
