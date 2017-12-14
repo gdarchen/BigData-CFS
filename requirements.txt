@@ -1,5 +1,4 @@
 cassandra-driver==3.12.0
+nltk==3.2.5
 py4j==0.10.4
 six==1.11.0
-derby.log
-metastore_db
