@@ -22,8 +22,8 @@ class Server(object):
             tweets list and the dictionnary.
         """
         self.__odm = Odm()
-        self.__tweets = self.odm.get_tweets()
-        self.__dict = self.odm.get_dict()
+        self.__tweets,_,_ = self.odm.get_tweets()
+        self.__dict,_,_ = self.odm.get_dict()
     
     @property
     def odm(self):
@@ -58,7 +58,7 @@ class Server(object):
         try:
             tokens = nltk.word_tokenize(tweet)
             tokens = [t.lower() for t in tokens]
-        except Exception as err : 
+        except Exception as err: 
             exception = str(err)
             
         end = time.time()
@@ -71,12 +71,25 @@ class Server(object):
             If the token is a word that is present in the dictionnary, 
             it is returned.
             Else, '-1' is returned.
+
+            It also returns the elapsed calculation time and the potential
+            exception message.
         """
-        for dict_word in self.dict:
-                if (dict_word.word == token):
-                    return dict_word
+        start = time.time()
+        exception = None
+        res = -1
+        try:
+            for dict_word in self.dict:
+                    if (dict_word.word == token):
+                        res = dict_word
+                        break
+        except Exception as err:
+            exception = str(err)
         
-        return -1
+        end = time.time()
+        elapsed_time = end - start
+
+        return res, elapsed_time, exception
 
     
     def get_tweet_valence(self, tweet):
@@ -91,27 +104,48 @@ class Server(object):
 
             After all, we return the global valence of the tweet as the sign 
             of the previously calculated valence.
+
+            It also returns the elapsed calculation time and the potential
+            exception message.
         """
-        tokens,_,_ = self.tokenize_tweet(tweet)
-        global_valence = 0
-        for token in tokens:
-            dict_word = self.find_token_infos_in_dict(token)
-            if (dict_word != -1):
-                global_valence += dict_word.valence\
-                    if dict_word.strength=="weak"\
-                    else dict_word.valence*2
+        start = time.time()
+        exception = None
 
-        global_valence = np.sign(global_valence)
+        try:
+            tokens,_,_ = self.tokenize_tweet(tweet)
+            global_valence = 0
+            for token in tokens:
+                dict_word,_,_ = self.find_token_infos_in_dict(token)
+                if (dict_word != -1):
+                    global_valence += dict_word.valence\
+                        if dict_word.strength=="weak"\
+                        else dict_word.valence*2
+            
+            global_valence = np.sign(global_valence)
+        except Exception as err:
+            exception = str(err)
 
-        return global_valence
+        end = time.time()
+        elapsed_time = end - start
+        return global_valence, elapsed_time, exception
 
     def get_tweets_valence(self):
         """
             Calculates the valence of each tweet of the database and returns
             a list of the calculated valences.
+
+            It also returns the elapsed calculation time and the potential
+            exception message.
         """
+        start = time.time()
+        exception = None
         general_valence = {}
-        for tweet in self.tweets:
-            general_valence[tweet.text] = self.get_tweet_valence(tweet)
+        try:
+            for tweet in self.tweets:
+                general_valence[tweet.text],_,_ = self.get_tweet_valence(tweet)
+        except Exception as err:
+            exception = str(err)
         
-        return general_valence
+        end = time.time()
+        elapsed_time = end - start
+        return general_valence, elapsed_time, exception

@@ -1,5 +1,4 @@
 from server import Server 
-from odm import Odm
 
 def main():
     print("\n")
@@ -23,7 +22,7 @@ def main():
 
     print("------------ Global valence ------------")
     for tweet in s.tweets:
-        print("%s : valence=%d"%(tweet.text, s.get_tweet_valence(tweet.text)))
+        print("%s : valence=%d"%(tweet.text, s.get_tweet_valence(tweet.text)[0]))
     print("\n")
 
  
