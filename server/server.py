@@ -5,6 +5,7 @@ import numpy as np
 from odm import Odm
 from dictword import DictWord
 from tweet import Tweet
+from tools import time_and_exception
 
 
 class Server(object):
@@ -50,21 +51,15 @@ class Server(object):
         for word in self.dict:
             print(word)
     
+    @time_and_exception
     def tokenize_tweet(self, tweet):
         """Cuts the tweet and returns a list of lowercased tokens."""
-        start = time.time()
-        exception = None
-        tokens = []
-        try:
-            tokens = nltk.word_tokenize(tweet)
-            tokens = [t.lower() for t in tokens]
-        except Exception as err: 
-            exception = str(err)
-            
-        end = time.time()
-        elapsed_time = end - start
-        return tokens, elapsed_time, exception
-            
+        tokens = nltk.word_tokenize(tweet)
+        tokens = [t.lower() for t in tokens]
+        return tokens
+
+
+    @time_and_exception 
     def find_token_infos_in_dict(self, token):
         """
             Searches information about a token in the dictionnary.
@@ -75,23 +70,14 @@ class Server(object):
             It also returns the elapsed calculation time and the potential
             exception message.
         """
-        start = time.time()
-        exception = None
-        res = -1
-        try:
-            for dict_word in self.dict:
-                    if (dict_word.word == token):
-                        res = dict_word
-                        break
-        except Exception as err:
-            exception = str(err)
+        for dict_word in self.dict:
+            if (dict_word.word == token):
+                return dict_word
         
-        end = time.time()
-        elapsed_time = end - start
+        return None
 
-        return res, elapsed_time, exception
 
-    
+    @time_and_exception
     def get_tweet_valence(self, tweet):
         """
             Calculates and returns the global valence of a given tweet.
@@ -108,27 +94,19 @@ class Server(object):
             It also returns the elapsed calculation time and the potential
             exception message.
         """
-        start = time.time()
-        exception = None
+        tokens,_,_ = self.tokenize_tweet(tweet)
+        global_valence = 0
+        for token in tokens:
+            dict_word,_,_ = self.find_token_infos_in_dict(token)
+            if (dict_word is not None):
+                global_valence += dict_word.valence\
+                    if dict_word.strength=="weak"\
+                    else dict_word.valence*2
+        
+        global_valence = np.sign(global_valence)
+        return global_valence
 
-        try:
-            tokens,_,_ = self.tokenize_tweet(tweet)
-            global_valence = 0
-            for token in tokens:
-                dict_word,_,_ = self.find_token_infos_in_dict(token)
-                if (dict_word != -1):
-                    global_valence += dict_word.valence\
-                        if dict_word.strength=="weak"\
-                        else dict_word.valence*2
-            
-            global_valence = np.sign(global_valence)
-        except Exception as err:
-            exception = str(err)
-
-        end = time.time()
-        elapsed_time = end - start
-        return global_valence, elapsed_time, exception
-
+    @time_and_exception
     def get_tweets_valence(self):
         """
             Calculates the valence of each tweet of the database and returns
@@ -137,15 +115,8 @@ class Server(object):
             It also returns the elapsed calculation time and the potential
             exception message.
         """
-        start = time.time()
-        exception = None
         general_valence = {}
-        try:
-            for tweet in self.tweets:
-                general_valence[tweet.text],_,_ = self.get_tweet_valence(tweet)
-        except Exception as err:
-            exception = str(err)
-        
-        end = time.time()
-        elapsed_time = end - start
-        return general_valence, elapsed_time, exception
+        for tweet in self.tweets:
+            general_valence[tweet.text],_,_ = self.get_tweet_valence(tweet)
+
+        return general_valence

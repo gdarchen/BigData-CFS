@@ -5,6 +5,8 @@ from cassandra.cluster import Cluster
 from cassandra.query import named_tuple_factory
 from dictword import DictWord
 from tweet import Tweet
+from tools import time_and_exception
+
 
 class Odm(object):
     """
@@ -23,6 +25,7 @@ class Odm(object):
         self.session = self.cluster.connect(keyspace)
         self.session.row_factory = named_tuple_factory
 
+    @time_and_exception
     def get_tweets(self):
         """
             Reads every tweets stored in the database, build Tweet objects
@@ -32,22 +35,14 @@ class Odm(object):
             It also returns the elapsed calculation time and the potential
             exception message.
         """
-        start = time.time()
-        exception = None
         tweets = []
+        rows = self.session.execute('SELECT * FROM tweets;')
+        for row in rows:
+            t = Tweet(text=row.tweet)
+            tweets.append(t)
+        return tweets
 
-        try:
-            rows = self.session.execute('SELECT * FROM tweets;')
-            for row in rows:
-                t = Tweet(text=row.tweet)
-                tweets.append(t)
-        except Exception as err:
-            exception = str(err)
-
-        end = time.time()
-        elapsed_time = end - start
-        return tweets, elapsed_time, exception
-
+    @time_and_exception
     def get_dict(self):
         """
             Reads every word stored in the dictionnary database, build 
@@ -57,19 +52,12 @@ class Odm(object):
             It also returns the elapsed calculation time and the potential
             exception message.
         """
-        start = time.time()
-        exception = None
         words = []
-        try:
-            rows = self.session.execute('SELECT * FROM dict;')
-            for row in rows:
-                w = DictWord(word=row.word,
-                            valence=row.valence,
-                            strength=row.strength)
-                words.append(w)
-        except Exception as err:
-            exception = str(err)
+        rows = self.session.execute('SELECT * FROM dict;')
+        for row in rows:
+            w = DictWord(word=row.word,
+                        valence=row.valence,
+                        strength=row.strength)
+            words.append(w)
+        return words
         
-        end = time.time()
-        elapsed_time = end - start
-        return words, elapsed_time, exception

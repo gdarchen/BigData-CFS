@@ -22,8 +22,9 @@ def main():
 
     print("------------ Global valence ------------")
     for tweet in s.tweets:
-        print("%s : valence=%d"%(tweet.text, s.get_tweet_valence(tweet.text)[0]))
+        print("%s : valence = %d"%(tweet.text, s.get_tweet_valence(tweet.text)[0]))
     print("\n")
+
 
  
 if __name__ == '__main__':
