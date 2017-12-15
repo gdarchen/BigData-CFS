@@ -95,10 +95,10 @@ word : anti 	 valence : -1 	 strength : strong
 ['I', 'have', 'never', 'seen', 'such', 'a', 'good', 'film', 'before']
 
 ------------ Global valence ------------
-I am not convinced by this shit film... : valence=-4
-Iron Man 3 is such a shit : valence=-2
-I found Iron Man 3 was a crazy film : valence=2
-I have never seen such a good film before : valence=2
+I am not convinced by this shit film... : valence=-1
+Iron Man 3 is such a shit : valence=-1
+I found Iron Man 3 was a crazy film : valence=1
+I have never seen such a good film before : valence=1
 ```
 
 Explications du programme : 
