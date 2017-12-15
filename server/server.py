@@ -1,8 +1,11 @@
+import time
+import nltk
+import numpy as np
+
 from odm import Odm
 from dictword import DictWord
 from tweet import Tweet
 
-import nltk
 
 class Server(object):
     """
@@ -49,9 +52,18 @@ class Server(object):
     
     def tokenize_tweet(self, tweet):
         """Cuts the tweet and returns a list of lowercased tokens."""
-        tokens = nltk.word_tokenize(tweet)
-        tokens = [t.lower() for t in tokens]
-        return tokens
+        start = time.time()
+        exception = None
+        tokens = []
+        try:
+            tokens = nltk.word_tokenize(tweet)
+            tokens = [t.lower() for t in tokens]
+        except Exception as err : 
+            exception = str(err)
+            
+        end = time.time()
+        elapsed_time = end - start
+        return tokens, elapsed_time, exception
             
     def find_token_infos_in_dict(self, token):
         """
@@ -76,8 +88,11 @@ class Server(object):
 
             On top of that, if the strength of the word is 'strong', we 
             ponderate its valence by 2.
+
+            After all, we return the global valence of the tweet as the sign 
+            of the previously calculated valence.
         """
-        tokens = self.tokenize_tweet(tweet)
+        tokens,_,_ = self.tokenize_tweet(tweet)
         global_valence = 0
         for token in tokens:
             dict_word = self.find_token_infos_in_dict(token)
@@ -85,6 +100,8 @@ class Server(object):
                 global_valence += dict_word.valence\
                     if dict_word.strength=="weak"\
                     else dict_word.valence*2
+
+        global_valence = np.sign(global_valence)
 
         return global_valence
 

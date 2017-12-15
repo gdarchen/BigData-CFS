@@ -1,4 +1,5 @@
 cassandra-driver==3.12.0
 nltk==3.2.5
+numpy==1.13.3
 py4j==0.10.4
 six==1.11.0
