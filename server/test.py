@@ -15,7 +15,7 @@ def main():
     print("------------- Tokenization -------------")
     tokens = {}
     for tweet in s.tweets:
-        t,_,_ = s.tokenize_tweet(tweet.text)
+        t = s.tokenize_tweet(tweet.text)[0]
         tokens[tweet.text] = t
         print(t)
     print("\n")

@@ -23,8 +23,8 @@ class Server(object):
             tweets list and the dictionnary.
         """
         self.__odm = Odm()
-        self.__tweets,_,_ = self.odm.get_tweets()
-        self.__dict,_,_ = self.odm.get_dict()
+        self.__tweets = self.odm.get_tweets()[0]
+        self.__dict = self.odm.get_dict()[0]
     
     @property
     def odm(self):
@@ -94,10 +94,10 @@ class Server(object):
             It also returns the elapsed calculation time and the potential
             exception message.
         """
-        tokens,_,_ = self.tokenize_tweet(tweet)
+        tokens = self.tokenize_tweet(tweet)[0]
         global_valence = 0
         for token in tokens:
-            dict_word,_,_ = self.find_token_infos_in_dict(token)
+            dict_word = self.find_token_infos_in_dict(token)[0]
             if (dict_word is not None):
                 global_valence += dict_word.valence\
                     if dict_word.strength=="weak"\
@@ -117,6 +117,6 @@ class Server(object):
         """
         general_valence = {}
         for tweet in self.tweets:
-            general_valence[tweet.text],_,_ = self.get_tweet_valence(tweet)
+            general_valence[tweet.text] = self.get_tweet_valence(tweet)[0]
 
         return general_valence
