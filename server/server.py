@@ -11,7 +11,7 @@ from tools import time_and_exception
 class Server(object):
     """
         Class making some operations on the tweet database.
-        It can tokenize a tweet, interact with an ODM and 
+        It can tokenize a tweet, interact with an ODM and
         calculate the global valence of a tweet according
         to a dictionnary.
     """
@@ -19,13 +19,13 @@ class Server(object):
     def __init__(self):
         """
             Constructor for a Server object.
-            It initializes the ODM to interact with the DB, get the 
+            It initializes the ODM to interact with the DB, get the
             tweets list and the dictionnary.
         """
         self.__odm = Odm()
         self.__tweets = self.odm.get_tweets()[0]
         self.__dict = self.odm.get_dict()[0]
-    
+
     @property
     def odm(self):
         """ODM object to manage the interaction with the DB."""
@@ -40,7 +40,7 @@ class Server(object):
     def dict(self):
         """List of all DictWord registered in the dictionnary in the DB."""
         return self.__dict
-    
+
     def print_tweets(self):
         """Prints every registered tweet."""
         for tweet in self.tweets:
@@ -50,7 +50,7 @@ class Server(object):
         """Prints information about every registered word in the dictionnary."""
         for word in self.dict:
             print(word)
-    
+
     @time_and_exception
     def tokenize_tweet(self, tweet):
         """Cuts the tweet and returns a list of lowercased tokens."""
@@ -59,11 +59,11 @@ class Server(object):
         return tokens
 
 
-    @time_and_exception 
+    @time_and_exception
     def find_token_infos_in_dict(self, token):
         """
             Searches information about a token in the dictionnary.
-            If the token is a word that is present in the dictionnary, 
+            If the token is a word that is present in the dictionnary,
             it is returned.
             Else, '-1' is returned.
 
@@ -73,7 +73,7 @@ class Server(object):
         for dict_word in self.dict:
             if (dict_word.word == token):
                 return dict_word
-        
+
         return None
 
 
@@ -81,14 +81,14 @@ class Server(object):
     def get_tweet_valence(self, tweet):
         """
             Calculates and returns the global valence of a given tweet.
-            For each token of the tweet, it searches information about it 
+            For each token of the tweet, it searches information about it
             in the dictionnary. If such information are found, we look at
             the valence of the token to update the tweet global valence.
 
-            On top of that, if the strength of the word is 'strong', we 
+            On top of that, if the strength of the word is 'strong', we
             ponderate its valence by 2.
 
-            After all, we return the global valence of the tweet as the sign 
+            After all, we return the global valence of the tweet as the sign
             of the previously calculated valence.
 
             It also returns the elapsed calculation time and the potential
@@ -99,10 +99,10 @@ class Server(object):
         for token in tokens:
             dict_word = self.find_token_infos_in_dict(token)[0]
             if (dict_word is not None):
-                global_valence += dict_word.valence\
-                    if dict_word.strength=="weak"\
-                    else dict_word.valence*2
-        
+                global_valence += dict_word.valence \
+                    if dict_word.strength == "strong" \
+                    else dict_word.valence * 2
+
         global_valence = np.sign(global_valence)
         return global_valence
 
@@ -120,3 +120,14 @@ class Server(object):
             general_valence[tweet.text] = self.get_tweet_valence(tweet)[0]
 
         return general_valence
+
+    @time_and_exception
+    def compute_global_tweets_valence():
+        """
+        Computes the global valence of the tweets database.
+
+        :rtype: float in [-1, 1]
+        :return: The global valence of the tweets database.
+        """
+        valences = self.get_tweets_valence()[0].values()
+        return sum(valences) / len(valences)
