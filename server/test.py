@@ -1,4 +1,4 @@
-from server import Server 
+from server.server import Server 
 
 def main():
     print("\n")
@@ -26,6 +26,6 @@ def main():
     print("\n")
 
 
- 
+
 if __name__ == '__main__':
     main()

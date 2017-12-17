@@ -17,10 +17,10 @@ class Tweet(object):
 
     @text.setter
     def text(self, text):
-        self.__text = text    
+        self.__text = text
 
     def __str__(self):
         return self.text
 
     def __repr__(self):
-        return "Tweet(text=%s)" % (self.text) 
+        return "Tweet(text=%s)" % (self.text)

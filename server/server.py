@@ -2,10 +2,10 @@ import time
 import nltk
 import numpy as np
 
-from odm import Odm
-from dictword import DictWord
-from tweet import Tweet
-from tools import time_and_exception
+from server.odm import Odm
+from server.dictword import DictWord
+from server.tweet import Tweet
+from server.tools import time_and_exception
 
 
 class Server(object):

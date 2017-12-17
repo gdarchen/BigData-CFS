@@ -2,10 +2,6 @@ import argparse
 from server.server import Server
 
 
-def evaluate_all(server):
-    return serv
-
-
 def print_results(valence, time, exceptions):
     print("Global valence:", valence)
     print("Computing time:", time, "seconds")
@@ -15,8 +11,17 @@ def print_results(valence, time, exceptions):
 def main(args):
     server = Server()
     print("Computing the valence...")
-    if args.meantime:
-        for
+    if args.meantime_failrate:
+        meantime, failrate = [], []
+        tweets = server.tweets[:args.meantime_failrate]
+        for i in range(args.meantime_failrate):
+            time, fails = server.get_tweet_valence(tweet)[1:]
+            meantime.append(time)
+            failrate.append(len(fails))
+        meantime = sum(meantime) / len(meantime)
+        failrate = sum(failrate) / len(failrate)
+        print("Mean time per request:", meantime, "seconds")
+        print("Mean failure rate per request:", failrate)
     if args.all:
         results = server.get_tweets_valence()
     else:
@@ -27,10 +32,10 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Measure the global opinion on Iron Man 3 on Twitter.")
-    parser.add_argument("tweet", type=int, help="a Tweet ID")
+    parser = argparse.ArgumentParser(description="Measure the global opinion on Iron Man 3 on Twitter on a scale in [-1, 1].")
+    parser.add_argument("tweet", nargs="*", type=int, help="a tweet ID")
     parser.add_argument("-a", "--all", action='store_true', help="compute on all Tweets")
-    parser.add_argument("--meantime", type=int, nargs="?", const=3, help="compute the mean request time")
-    parser.add_argument("--failrate", type=int, nargs="?", const=3, help="compute the mean failures rate")
+    parser.add_argument("-Q", "--quality", type=int, nargs="?", const=100,
+                        help="compute quality caracteristics: mean request time and mean failures rate")
     args = parser.parse_args()
     main(args)

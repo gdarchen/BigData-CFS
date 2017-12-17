@@ -3,9 +3,9 @@ import numpy as np
 
 from cassandra.cluster import Cluster
 from cassandra.query import named_tuple_factory
-from dictword import DictWord
-from tweet import Tweet
-from tools import time_and_exception
+from server.dictword import DictWord
+from server.tweet import Tweet
+from server.tools import time_and_exception
 
 
 class Odm(object):
@@ -15,10 +15,10 @@ class Odm(object):
 
     def __init__(self, keyspace = 'casi_test1'):
         """
-            Initiates the Odm object, connecting it to a cluster with the 
+            Initiates the Odm object, connecting it to a cluster with the
             given keyspace.
             It also specializes the way to iterate on each tuple.
-            
+
             keyspace : the Cassandra database keyspace
         """
         self.cluster = Cluster()
@@ -45,8 +45,8 @@ class Odm(object):
     @time_and_exception
     def get_dict(self):
         """
-            Reads every word stored in the dictionnary database, build 
-            DictWord objects according to the read tuples and returns a 
+            Reads every word stored in the dictionnary database, build
+            DictWord objects according to the read tuples and returns a
             list of each built DictWord.
 
             It also returns the elapsed calculation time and the potential
@@ -60,4 +60,3 @@ class Odm(object):
                         strength=row.strength)
             words.append(w)
         return words
-        
