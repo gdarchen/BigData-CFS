@@ -1,6 +1,6 @@
 class Tweet(object):
     """
-        Class to represents a tuple in the tweets table.
+        Class to represent a tuple in the tweets table.
         It characterizes a tweet according to its text.
     """
 

@@ -1,11 +1,12 @@
 import time
 import nltk
 import numpy as np
+from sklearn.metrics import f1_score
 
-from server.odm import Odm
-from server.dictword import DictWord
-from server.tweet import Tweet
-from server.tools import time_and_exception
+from odm import Odm
+from dictword import DictWord
+from tweet import Tweet
+from tools import time_and_exception
 
 
 class Server(object):
@@ -25,6 +26,7 @@ class Server(object):
         self.__odm = Odm()
         self.__tweets = self.odm.get_tweets()[0]
         self.__dict = self.odm.get_dict()[0]
+        self.__ground_truth = self.odm.get_ground_truth()[0]
 
     @property
     def odm(self):
@@ -40,6 +42,14 @@ class Server(object):
     def dict(self):
         """List of all DictWord registered in the dictionnary in the DB."""
         return self.__dict
+    
+    @property
+    def ground_truth(self):
+        """
+            List of all GroundTruth objects registered in the ground truth in 
+            the DB.
+        """
+        return self.__ground_truth
 
     def print_tweets(self):
         """Prints every registered tweet."""
@@ -131,3 +141,21 @@ class Server(object):
         """
         valences = self.get_tweets_valence()[0].values()
         return sum(valences) / len(valences)
+
+    @time_and_exception
+    def compute_f1_score(self):
+        """
+            Computes and returns the F1-Score for each possible valence 
+            (-1 | 0 | 1). 
+        """
+        y_true = []
+        y_pred =[]
+        for g in self.ground_truth:
+            # Store the true valence
+            y_true.append(g.ground_truth_valence)
+            
+            # Compute the valence and store it too
+            computed_val =  self.get_tweet_valence(g.tweet)[0]
+            y_pred.append(computed_val)
+        
+        return f1_score(y_true, y_pred, average=None)

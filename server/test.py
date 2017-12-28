@@ -1,4 +1,4 @@
-from server.server import Server 
+from server import Server 
 
 def main():
     print("\n")
@@ -25,6 +25,10 @@ def main():
         print("%s : valence = %d"%(tweet.text, s.get_tweet_valence(tweet.text)[0]))
     print("\n")
 
+    print("--------------- F1-Score ---------------")
+    f1_score = s.compute_f1_score()[0]
+    print(f1_score)
+    print("\n")
 
 
 if __name__ == '__main__':

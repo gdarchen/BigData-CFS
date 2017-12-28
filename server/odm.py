@@ -3,9 +3,10 @@ import numpy as np
 
 from cassandra.cluster import Cluster
 from cassandra.query import named_tuple_factory
-from server.dictword import DictWord
-from server.tweet import Tweet
-from server.tools import time_and_exception
+from dictword import DictWord
+from tweet import Tweet
+from groundtruth import GroundTruth
+from tools import time_and_exception
 
 
 class Odm(object):
@@ -60,3 +61,21 @@ class Odm(object):
                         strength=row.strength)
             words.append(w)
         return words
+
+    @time_and_exception
+    def get_ground_truth(self):
+        """
+            Reads every tweet stored in the ground truth database, build
+            GroundTruth objects according to the read tuples and returns a
+            list of each built GroundTruth.
+
+            It also returns the elapsed calculation time and the potential
+            exception message.
+        """
+        ground_truth = []
+        rows = self.session.execute('SELECT * FROM ground_truth;')
+        for row in rows:
+            g = GroundTruth(tweet=row.tweet,
+                        ground_truth_valence=row.ground_truth_valence)
+            ground_truth.append(g)
+        return ground_truth

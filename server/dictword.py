@@ -1,6 +1,6 @@
 class DictWord(object):
     """
-        Class to represents a tuple in the dictionnary table.
+        Class to represent a tuple in the dictionnary table.
         It characterizes a word according to its word text, 
         its valence and the strength of its valence (strong/weak).
     """

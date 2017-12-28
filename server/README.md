@@ -34,6 +34,7 @@ $ cqlsh
 /* Création des tables */
 >>> CREATE TABLE tweets(tweet text PRIMARY KEY);
 >>> CREATE TABLE dict(word text PRIMARY KEY, valence int, strength text);
+>>> CREATE TABLE ground_truth(tweet text PRIMARY KEY, ground_truth_valence int);
 
 /* Insertion de tuples */
 >>> INSERT INTO dict(word, valence, strength) values ('anti', -1, 'strong');
@@ -45,6 +46,11 @@ $ cqlsh
 >>> INSERT INTO tweets(tweet) values('I found Iron Man 3 was a crazy film') ;
 >>> INSERT INTO tweets(tweet) values('I have never seen such a good film before') ;
 >>> INSERT INTO tweets(tweet) values('I am not convinced by this shit film...') ;
+
+>>> INSERT INTO ground_truth(tweet, ground_truth_valence) VALUES ('I am not convinced by this shit film...', -1);
+>>> INSERT INTO ground_truth(tweet, ground_truth_valence) VALUES ('Iron Man 3 is such a shit', -1);
+>>> INSERT INTO ground_truth(tweet, ground_truth_valence) VALUES ('I found Iron Man 3 was a crazy film', 1);
+>>> INSERT INTO ground_truth(tweet, ground_truth_valence) VALUES ('I have never seen such a good film before', 1);
 
 /* Tables souhaitées */
 >>> SELECT * from casi_test1.dict;
@@ -66,6 +72,15 @@ $ cqlsh
                  Iron Man 3 is such a shit
        I found Iron Man 3 was a crazy film
  I have never seen such a good film before
+
+>>> SELECT * FROM casi_test1.ground_truth;
+
+ tweet                                     | ground_truth_valence
+-------------------------------------------+----------------------
+   I am not convinced by this shit film... |                   -1
+                 Iron Man 3 is such a shit |                   -1
+       I found Iron Man 3 was a crazy film |                    1
+ I have never seen such a good film before |                    1
 ```
 
 # Utilisation des classes
@@ -89,16 +104,19 @@ word : crazy 	 valence : 1 	 strength : strong
 word : anti 	 valence : -1 	 strength : strong
 
 ------------- Tokenization -------------
-['I', 'am', 'not', 'convinced', 'by', 'this', 'shit', 'film', '...']
-['Iron', 'Man', '3', 'is', 'such', 'a', 'shit']
-['I', 'found', 'Iron', 'Man', '3', 'was', 'a', 'crazy', 'film']
-['I', 'have', 'never', 'seen', 'such', 'a', 'good', 'film', 'before']
+['i', 'am', 'not', 'convinced', 'by', 'this', 'shit', 'film', '...']
+['iron', 'man', '3', 'is', 'such', 'a', 'shit']
+['i', 'found', 'iron', 'man', '3', 'was', 'a', 'crazy', 'film']
+['i', 'have', 'never', 'seen', 'such', 'a', 'good', 'film', 'before']
 
 ------------ Global valence ------------
-I am not convinced by this shit film... : valence=-1
-Iron Man 3 is such a shit : valence=-1
-I found Iron Man 3 was a crazy film : valence=1
-I have never seen such a good film before : valence=1
+I am not convinced by this shit film... : valence = -1
+Iron Man 3 is such a shit : valence = -1
+I found Iron Man 3 was a crazy film : valence = 1
+I have never seen such a good film before : valence = 1
+
+--------------- F1-Score ---------------
+[ 1.  1.]
 ```
 
 Explications du programme : 
@@ -106,6 +124,9 @@ Explications du programme :
 2. Affichage des informations sur tous les mots enregistrés dans le dictionnaire.
 3. Affichage des *tokens* issus du découpage des mots de chacun des tweets.
 4. Résultat de la valence globale de chaque tweet.
+5. Calcul du F1-Score pour chacune des classes (dans l'exemple précédent, seuls 2
+valeurs sont renvoyées car aucun tweet n'est valencée à **0** comme étant neutre). Dans 
+l'application réelle, trois valeurs de F1-Score seront renvoyées.
 
 
 # Bibliographie 
