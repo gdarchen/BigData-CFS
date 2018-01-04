@@ -1,7 +1,7 @@
 venv
 derby.log
 metastore_db/
-server/__pycache__
 .vscode
 data/SentimentFiles
 .DS_Store
+**/__pycache__
