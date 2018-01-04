@@ -116,7 +116,7 @@ I found Iron Man 3 was a crazy film : valence = 1
 I have never seen such a good film before : valence = 1
 
 --------------- F1-Score ---------------
-[ 1.  1.]
+1.0
 ```
 
 Explications du programme : 
@@ -124,10 +124,7 @@ Explications du programme :
 2. Affichage des informations sur tous les mots enregistrés dans le dictionnaire.
 3. Affichage des *tokens* issus du découpage des mots de chacun des tweets.
 4. Résultat de la valence globale de chaque tweet.
-5. Calcul du F1-Score pour chacune des classes (dans l'exemple précédent, seuls 2
-valeurs sont renvoyées car aucun tweet n'est valencée à **0** comme étant neutre). Dans 
-l'application réelle, trois valeurs de F1-Score seront renvoyées.
-
+5. Calcul du F1-Score moyen pour chacune des classes.
 
 # Bibliographie 
 

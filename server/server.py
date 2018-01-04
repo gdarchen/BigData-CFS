@@ -145,8 +145,7 @@ class Server(object):
     @time_and_exception
     def compute_f1_score(self):
         """
-            Computes and returns the F1-Score for each possible valence 
-            (-1 | 0 | 1). 
+            Computes and returns the averaged macro F1-Score.
         """
         y_true = []
         y_pred =[]
@@ -158,4 +157,4 @@ class Server(object):
             computed_val =  self.get_tweet_valence(g.tweet)[0]
             y_pred.append(computed_val)
         
-        return f1_score(y_true, y_pred, average=None)
+        return f1_score(y_true, y_pred, average='macro')
