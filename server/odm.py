@@ -3,10 +3,17 @@ import numpy as np
 
 from cassandra.cluster import Cluster
 from cassandra.query import named_tuple_factory
+<<<<<<< HEAD
 from .dictword import DictWord
 from .tweet import Tweet
 from .groundtruth import GroundTruth
 from .tools import time_and_exception
+=======
+from server.dictword import DictWord
+from server.tweet import Tweet
+from server.groundtruth import GroundTruth
+from server.tools import time_and_exception
+>>>>>>> 1a4a63cb8fcb9b6370084f186150033d24412d6c
 
 
 class Odm(object):

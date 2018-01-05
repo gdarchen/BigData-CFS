@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from .server import Server 
+=======
+from server.server import Server 
+>>>>>>> 1a4a63cb8fcb9b6370084f186150033d24412d6c
 
 def main():
     print("\n")

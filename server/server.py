@@ -3,10 +3,17 @@ import nltk
 import numpy as np
 from sklearn.metrics import f1_score
 
+<<<<<<< HEAD
 from .odm import Odm
 from .dictword import DictWord
 from .tweet import Tweet
 from .tools import time_and_exception
+=======
+from server.odm import Odm
+from server.dictword import DictWord
+from server.tweet import Tweet
+from server.tools import time_and_exception
+>>>>>>> 1a4a63cb8fcb9b6370084f186150033d24412d6c
 
 
 class Server(object):
@@ -145,8 +152,12 @@ class Server(object):
     @time_and_exception
     def compute_f1_score(self):
         """
+<<<<<<< HEAD
             Computes and returns the F1-Score for each possible valence
             (-1 | 0 | 1).
+=======
+            Computes and returns the averaged macro F1-Score.
+>>>>>>> 1a4a63cb8fcb9b6370084f186150033d24412d6c
         """
         y_true = []
         y_pred =[]
@@ -157,5 +168,10 @@ class Server(object):
             # Compute the valence and store it too
             computed_val =  self.get_tweet_valence(g.tweet)[0]
             y_pred.append(computed_val)
+<<<<<<< HEAD
 
         return f1_score(y_true, y_pred, average=None)
+=======
+        
+        return f1_score(y_true, y_pred, average='macro')
+>>>>>>> 1a4a63cb8fcb9b6370084f186150033d24412d6c

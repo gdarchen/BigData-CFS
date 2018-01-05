@@ -1,4 +1,8 @@
 import argparse
+
+# import sys
+# sys.path.append('../')
+
 from server.server import Server
 
 
@@ -25,15 +29,14 @@ def main(args):
     if args.all:
         results = server.get_tweets_valence()
     else:
-        tweet = server.tweets[args.tweet]
-        print("Tweet text:", tweet.text)
-        results = server.get_tweet_valence(tweet)
+        print("Tweet text:", args.tweet)
+        results = server.get_tweet_valence(args.tweet)
     print_results(*results)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Measure the global opinion on Iron Man 3 on Twitter on a scale in [-1, 1].")
-    parser.add_argument("tweet", nargs="*", type=int, default=0, help="a tweet ID")
+    parser.add_argument("tweet", type=str, default="Iron man 3!", help="a sentence")
     parser.add_argument("-a", "--all", action='store_true', help="compute on all Tweets")
     parser.add_argument("-Q", "--quality", type=int, nargs="?", const=100,
                         help="compute quality caracteristics: mean request time and mean failures rate")
