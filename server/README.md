@@ -88,7 +88,7 @@ Le fichier `test.py` présente une utilisation possible des classes du serveur.
 
 Un résultat donné par ce script est le suivant : 
 ```bash
-$ python server/test.py
+$ python -m server.test.py
 
 ---------------- Tweets ----------------
 I am not convinced by this shit film...

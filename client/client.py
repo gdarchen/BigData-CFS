@@ -1,4 +1,8 @@
 import argparse
+
+import sys
+sys.path.append('../')
+
 from server.server import Server
 
 
