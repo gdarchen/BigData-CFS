@@ -14,7 +14,7 @@ class Odm(object):
         Class manipulating the Cassandra database.
     """
 
-    def __init__(self, keyspace = 'casi_test1'):
+    def __init__(self, keyspace = 'casi_test1', ip = '127.0.0.1'):
         """
             Initiates the Odm object, connecting it to a cluster with the
             given keyspace.
@@ -22,7 +22,9 @@ class Odm(object):
 
             keyspace : the Cassandra database keyspace
         """
-        self.cluster = Cluster()
+        ips = []
+        ips.append(ip)
+        self.cluster = Cluster(ips)
         self.session = self.cluster.connect(keyspace)
         self.session.row_factory = named_tuple_factory
 
