@@ -10,7 +10,7 @@ def time_and_exception(func):
         try:
             res = func(*args, **kwargs)
         except Exception as err:
-            exception = str(err)
+            exception = err
         end = time.time()
         elapsed_time = end - start
         return res, elapsed_time, exception
