@@ -3,10 +3,10 @@ import numpy as np
 
 from cassandra.cluster import Cluster
 from cassandra.query import named_tuple_factory
-from server.dictword import DictWord
-from server.tweet import Tweet
-from server.groundtruth import GroundTruth
-from server.tools import time_and_exception
+from .dictword import DictWord
+from .tweet import Tweet
+from .groundtruth import GroundTruth
+from .tools import time_and_exception
 
 
 class Odm(object):
@@ -14,7 +14,7 @@ class Odm(object):
         Class manipulating the Cassandra database.
     """
 
-    def __init__(self, keyspace = 'casi_test1'):
+    def __init__(self, keyspace = 'casi_test1', ip = '127.0.0.1'):
         """
             Initiates the Odm object, connecting it to a cluster with the
             given keyspace.
@@ -22,7 +22,9 @@ class Odm(object):
 
             keyspace : the Cassandra database keyspace
         """
-        self.cluster = Cluster()
+        ips = []
+        ips.append(ip)
+        self.cluster = Cluster(ips)
         self.session = self.cluster.connect(keyspace)
         self.session.row_factory = named_tuple_factory
 
@@ -39,7 +41,7 @@ class Odm(object):
         tweets = []
         rows = self.session.execute('SELECT * FROM tweets;')
         for row in rows:
-            t = Tweet(text=row.tweet)
+            t = Tweet(id=row.id, text=row.tweet)
             tweets.append(t)
         return tweets
 

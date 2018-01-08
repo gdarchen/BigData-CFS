@@ -4,12 +4,22 @@ class Tweet(object):
         It characterizes a tweet according to its text.
     """
 
-    def __init__(self, text = ""):
+    def __init__(self, id, text = ""):
         """
             Constructor to initiate the Tweet.
+            id : the TIMEUUID of the tweet.
             text : the text of the tweet.
         """
+        self.__id = id
         self.__text = text
+
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, id):
+        self.__id = id
 
     @property
     def text(self):
@@ -23,4 +33,4 @@ class Tweet(object):
         return self.text
 
     def __repr__(self):
-        return "Tweet(text=%s)" % (self.text)
+        return "Tweet(id=%s, text=%s)" % (self.id, self.text)
