@@ -75,7 +75,7 @@ class Server(object):
             Searches information about a token in the dictionnary.
             If the token is a word that is present in the dictionnary,
             it is returned.
-            Else, '-1' is returned.
+            Else, 'None' is returned.
 
             It also returns the elapsed calculation time and the potential
             exception message.
