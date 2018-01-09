@@ -2,6 +2,52 @@
 
 # Big Data et tweet en temps réel — Solution CFS (*Cassandra File System*)
 
+# Utilisation
+
+## Installation et initialisation de l'environnement virtuel Python
+A la racine du projet : 
+
+```bash
+# Création de l'environnement virtuel
+$ python3 -m venv venv 
+# Lancement de l'environnement virtuel
+$ source venv/bin/activate
+# Installation des dépendances dans l'environnement virtuel
+(venv) $ pip install -r requirements
+```
+
+## Client
+Pour utiliser le client, il faut se placer à la racine du projet. Les options, affichées par l'aide (option `-h`) sont les suivantes :
+```bash
+(venv) $ python3 -m client.client -h                                                                                                                                   
+usage: client.py [-h] [-Q [SAMPLES]] [SENTENCE]
+
+Measure the global opinion on Iron Man 3 on Twitter on a scale in [-1, 1].
+
+positional arguments:
+  SENTENCE              a sentence
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -Q [SAMPLES], --quality [SAMPLES]
+                        compute quality caracteristics: mean request time and
+                        mean failures rate
+```
+
+On peut donc :
+
+* Lancer le client sans argument, auquel cas cela traite l'intégralité des données (`(venv) $ python3 -m client.client`)
+* Lancer le client avec l'argument `-Q` pour calculer les métriques des facteurs qualité (`(venv) $ python3 -m client.client -Q`)
+* Lancer le client avec une phrase à évaluer (`(venv) $ python3 -m client.client "Iron Man was such a shit"`)
+
+## Tests du serveur
+Il est également possible de tester les fonctions du serveur. Pour cela, il faut suivre les instructions indiquées dans le fichier <kbd>server</kbd>><kbd>README.m</kbd>, pour créer les tables de test.
+
+Ensuite, il est possible de lancer le script de test :
+```bash
+(venv) $ python3 -m server.test
+```
+
 ## Technique étudiée
 
 Analyse de données en flux continu (*streaming*) semi-structurées au moyen de technologies de la famille *Big Data*. 
