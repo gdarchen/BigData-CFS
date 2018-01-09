@@ -70,7 +70,7 @@ sbt package
 ```
 # Executer l'appli Scala avec Spark pour copier le contenu des fichiers CFS dans une base Cassandra.
 
-Copier le jar produit (cfstocassandra_2.11-1.0.jar) dans /dse/cfs avec le fichier CFS.files créé précedemment puis exécuter la commande suivante :
+Copier le jar produit (cfstocassandra_2.11-1.0.jar) dans /dse/cfs avec le fichier CFSfiles.txt créé précedemment puis exécuter la commande suivante :
 
 ```bash
 docker exec -it my-dse dse spark-submit /cfs/cfstocassandra_2.11-1.0.jar /cfs/CFSfiles.txt /cfs/dictionary.tsv /cfs/ground_truth.tsv
