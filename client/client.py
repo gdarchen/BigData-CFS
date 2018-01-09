@@ -23,7 +23,7 @@ def main(args):
             failrate.append(0 if fails is None else 1)
         meantime = sum(meantime) / len(meantime)
         failrate = sum(failrate) / len(failrate)
-        f1 = server.compute_f1_score()
+        f1 = server.compute_f1_score()[0]
         print("Mean time per request:", round(meantime, 6), "seconds")
         print("Mean failure rate per request:", failrate)
         print("F1-score (macro average):", f1)
@@ -38,7 +38,7 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Measure the global opinion on Iron Man 3 on Twitter on a scale in [-1, 1].")
     parser.add_argument("tweet", metavar="SENTENCE", nargs="?", type=str, help="a sentence")
-    parser.add_argument("-Q", "--quality", metavar="SAMPLES", type=int, nargs="?", const=100,
+    parser.add_argument("-Q", "--quality", metavar="SAMPLES", type=int, nargs="?", const=1000,
                         help="compute quality caracteristics: mean request time and mean failures rate")
     args = parser.parse_args()
     main(args)
