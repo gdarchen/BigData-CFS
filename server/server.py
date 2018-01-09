@@ -23,7 +23,7 @@ class Server(object):
         It initializes the ODM to interact with the DB, get the
         tweets list and the dictionnary.
         """
-        self.__odm = Odm(keyspace='test', ip='172.17.0.2')
+        self.__odm = Odm(keyspace='casi_test1', ip='172.17.0.2')
         self.__tweets = self.odm.get_tweets()[0]
         self.__dict = self.odm.get_dict()[0]
         self.__ground_truth = self.odm.get_ground_truth()[0]
