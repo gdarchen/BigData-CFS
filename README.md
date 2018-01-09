@@ -41,7 +41,7 @@ On peut donc :
 * Lancer le client avec une phrase à évaluer (`(venv) $ python3 -m client.client "Iron Man was such a shit"`)
 
 ## Tests du serveur
-Il est également possible de tester les fonctions du serveur. Pour cela, il faut suivre les instructions indiquées dans le fichier <kbd>server</kbd>><kbd>README.m</kbd>, pour créer les tables de test.
+Il est également possible de tester les fonctions du serveur. Pour cela, il faut suivre les instructions indiquées dans le fichier <kbd>server</kbd>><kbd>README.md</kbd>, pour créer les tables de test.
 
 Ensuite, il est possible de lancer le script de test :
 ```bash
