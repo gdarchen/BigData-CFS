@@ -47,13 +47,13 @@ docker exec -it my-dse dse hadoop fs -copyFromLocal /cfs/dictionary.tsv /cfs
 docker exec -it my-dse dse hadoop fs -copyFromLocal /cfs/ground_truth.tsv /cfs
 ```
 
-#Ecriture des noms des fichiers texte CFS dans un fichier
+# Ecriture des noms des fichiers texte CFS dans un fichier
 
 ```bash
 docker exec -it my-dse dse hadoop fs -ls / > files.txt
 grep -oP '/[a-zA-Z0-9.]*.txt' files.txt > CFSfiles.txt
 ```
-#Création scala jar
+# Création scala jar
 Assurez-vous d'avoir installer scala version 2.11.6 et sbt version 1.0.4 :
 
 ```bash
@@ -68,7 +68,7 @@ Exécuter la commande suivante dans le répertoire ScalaApp/ :
 ```bash
 sbt package
 ```
-#Executer l'appli Scala avec Spark pour copier le contenu des fichiers CFS dans une base Cassandra.
+# Executer l'appli Scala avec Spark pour copier le contenu des fichiers CFS dans une base Cassandra.
 
 Copier le jar produit (cfstocassandra_2.11-1.0.jar) dans /dse/cfs avec le fichier CFS.files créé précedemment puis exécuter la commande suivante :
 
