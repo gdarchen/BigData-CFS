@@ -23,8 +23,10 @@ def main(args):
             failrate.append(0 if fails is None else 1)
         meantime = sum(meantime) / len(meantime)
         failrate = sum(failrate) / len(failrate)
+        f1 = server.compute_f1_score()
         print("Mean time per request:", round(meantime, 6), "seconds")
         print("Mean failure rate per request:", failrate)
+        print("F1-score (macro average):", f1)
     else:
         if args.tweet:
             results = server.get_tweet_valence(args.tweet)
